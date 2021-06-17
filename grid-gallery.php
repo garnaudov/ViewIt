@@ -23,13 +23,7 @@
 
     $galleryOwner = $gateway->getOwnerOfGallery($currentGalleryName);
 
-    // if (isset($_POST['submit']) && isset($_POST['description']) && isset($_POST['image'])) {
-    //   echo $_POST['description'];
-    //   echo $_POST['galleryName'];
 
-    //   $gateway -> insertPhoto($_POST['description'], $_POST['galleryName']);
-    //   header("Location: grid-gallery.php?gallery=".$currentGalleryName);
-    //   }
 
 ?>
 <html lang="en">
@@ -39,14 +33,11 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <link rel="stylesheet" href="grid-gallery.css" media="all">
-  <title>CSS Grid</title>
+  <title><php echo $currentGalleryName ?></title>
 </head>
 
 <body>
-<?php 
 
-echo $galleryOwner[0]["owner"]
-?>
 
 
 <div class="form-wrapper">
@@ -68,14 +59,6 @@ echo $galleryOwner[0]["owner"]
       <button class="submit" type="submit" name="submit">Качи!</button>
     </form>
 </div>
-
-<!-- <form action="upload.php" method="POST" enctype="multipart/form-data">
-  <input id="description" name="description" class="input" type="text" placeholder=" " />
-  <input id="galleryName" name="galleryName" value="" type="hidden" />
-  <input type="file" id="myFile" name="image">
-  
-  <button type="submit" name="submit">Upload</button>
-</form> -->
 
 <div class='grid-gallery'>
 
@@ -109,15 +92,36 @@ if(count($photosByGallery) == 0) {
         );
         $ext = strtolower(pathinfo($image[0]['path'], PATHINFO_EXTENSION));
         if (in_array($ext, $supported_file)) {
-            echo '
-            <div class="gallery-container w-3 h-2">
-            <div class="gallery-item">
-              <div class="image">
-                <img src="'.$image[0]['path'] .'" alt="nature">
+            if($galleryOwner[0]["owner"] === $username) {
+              echo '
+              <div class="gallery-container w-3 h-2">
+              <div class="gallery-item">
+                <div class="image">
+                  <img src="'.$image[0]['path'] .'" alt="nature">
+                </div>
+                <div class="text">'.$image[0]['description'] .'
+                </div>
+                
               </div>
-              <div class="text">'.$image[0]['description'] .'</div>
-            </div>
-          </div>';
+              <form method="POST" action="deletePhoto.php" enctype="multipart/form-data">
+              <input name="photoId" value="'.$image[0]['id'] .'" type="hidden" />
+              <input id="galleryName" name="galleryName" value="'.$currentGalleryName .'" type="hidden" />
+              <button type="submit" name="submit" class="deletebtn">&#128465;</button>
+            </form> 
+            </div>';
+            }
+            else {
+              echo '
+              <div class="gallery-container w-3 h-2">
+              <div class="gallery-item">
+                <div class="image">
+                  <img src="'.$image[0]['path'] .'" alt="nature">
+                </div>
+                <div class="text">'.$image[0]['description'] .'
+                </div>
+              </div>
+            </div>';
+            }
            } else {
                continue;
            }
@@ -125,82 +129,7 @@ if(count($photosByGallery) == 0) {
       ?>
 </div>
 
-  
-<!--     
 
-    <div class="gallery-container w-3 h-2">
-      <div class="gallery-item">
-        <div class="image">
-          <img src="https://source.unsplash.com/1600x900/?nature" alt="nature">
-        </div>
-        <div class="text">Nature</div>
-      </div>
-    </div>
-
-    <div class="gallery-container w-3 h-3">
-      <div class="gallery-item">
-        <div class="image">
-          <img src="https://source.unsplash.com/1600x900/?people" alt="people">
-        </div>
-        <div class="text">People</div>
-      </div>
-    </div>
-
-    <div class="gallery-container h-2">
-      <div class="gallery-item">
-        <div class="image">
-          <img src="https://source.unsplash.com/1600x900/?sport" alt="sport">
-        </div>
-        <div class="text">Sport</div>
-      </div>
-    </div>
-
-    <div class="gallery-container w-2">
-      <div class="gallery-item">
-        <div class="image">
-          <img src="https://source.unsplash.com/1600x900/?fitness" alt="fitness">
-        </div>
-        <div class="text">Fitness</div>
-      </div>
-    </div>
-
-    <div class="gallery-container w-4 h-1">
-      <div class="gallery-item">
-        <div class="image">
-          <img src="https://source.unsplash.com/1600x900/?food" alt="food">
-        </div>
-        <div class="text">Food</div>
-      </div>
-    </div>
-
-    <div class="gallery-container">
-      <div class="gallery-item">
-        <div class="image">
-          <img src="https://source.unsplash.com/1600x900/?travel" alt="travel">
-        </div>
-        <div class="text">Travel</div>
-      </div>
-    </div>
-
-    <div class="gallery-container h-2">
-      <div class="gallery-item">
-        <div class="image">
-          <img src="https://source.unsplash.com/1600x900/?art" alt="art">
-        </div>
-        <div class="text">Art</div>
-      </div>
-    </div>
-
-    <div class="gallery-container">
-      <div class="gallery-item">
-        <div class="image">
-          <img src="https://source.unsplash.com/1600x900/?cars" alt="cars">
-        </div>
-        <div class="text">Cars</div>
-      </div>
-    </div>
-
-  </div> -->
 </body>
 
 <script>

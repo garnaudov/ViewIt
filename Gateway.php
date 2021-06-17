@@ -250,7 +250,9 @@ public function deletePhotoById($id)
         $statement2 = $this->db->prepare($statement2);
         $statement2->execute(array('id' => $id));
 
-        unlink($this->findPhotoById($id)[0]['path']);
+        chmod(dirname(__FILE__).'/'.$this->findPhotoById($id)[0]['path'], 0777);
+
+        unlink(dirname(__FILE__).'/'.$this->findPhotoById($id)[0]['path']);
         return $statement2->rowCount();
     } catch (\PDOException $e) {
         exit($e->getMessage());
@@ -271,9 +273,16 @@ public function deleteGalleryByName($name)
         WHERE name = :name;
     ";
 
+    $statement2 = "
+        DELETE FROM users_galleries
+        WHERE gallery_name = :name;
+    ";
+
     try {
         $statement = $this->db->prepare($statement);
         $statement->execute(array('name' => $name));
+        $statement2 = $this->db->prepare($statement2);
+        $statement2->execute(array('name' => $name));
         return $statement->rowCount();
     } catch (\PDOException $e) {
         exit($e->getMessage());

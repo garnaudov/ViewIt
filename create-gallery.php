@@ -12,8 +12,6 @@ else {
 }
 
 $gateway = new Gateway($conn);
-// $names = $gateway->findGalleriesByUsername('gkarnaudov');
-
 
 
 ?>
@@ -25,24 +23,22 @@ $gateway = new Gateway($conn);
   <link rel="stylesheet" href="drag-drop-module.styles.css">
 </head>
 
-<!-- <form action="upload.php" method="POST" enctype="multipart/form-data">
-
-    <input id="description" name="description" class="input" type="text" placeholder=" " />
-    <input type="file" id="myFile" name="image">
-    <button type="submit" name="submit">Upload</button>
-</form> -->
-
 <body>
-<form action="uploadJSON.php" method="POST" enctype="multipart/form-data">
 
-  <div class="drop-zone">
-    <span class="drop-zone__prompt">Drop the JSON file here or click to upload</span>
-    <input type="file" id="jsonFile" name="gallery" class="drop-zone__input">
-  </div>
-  <button type="submit" name="submit">Създай галерия</button>
-
-</form>
-
+<div class="form-wrapper">
+    <form method="POST" class="form" action="uploadJSON.php" enctype="multipart/form-data">
+      <div class="title">Създаване на галерия</div>
+      <div class="subtitle">Добавете галерия като качите JSON</div>
+      <div class="input-container ic1">
+      <div class="input-container ic2">
+        <div class="drop-zone">
+          <span class="drop-zone__prompt">Провлачете JSON или натиснете на полето.</span>
+          <input type="file" id="jsonFile" name="gallery" class="drop-zone__input">
+        </div>
+      </div>
+      <button class="submit" type="submit" name="submit">Качи!</button>
+    </form>
+</div>
 
 <div class="alert" id="drop-description__name__wrapper">
     <span id="drop-description__name"></span>
@@ -53,13 +49,7 @@ $gateway = new Gateway($conn);
 
 </span>
 
-  <!-- <script src="./src/main.js"></script> -->
 </body>
-
-<!-- <form>
-    <input type="file" name="jsonFile" id="jsonFile">
-    <div id="result"></div>
-</form> -->
 
 <script>
 
@@ -76,22 +66,15 @@ $gateway = new Gateway($conn);
     const onReaderLoad = (event) => {
         const obj = JSON.parse(event.target.result);
 
-        const { galleryName, studentsList, studentsNamesList} = obj;
+        const { galleryName } = obj;
 
-        galleryNameFromFile = galleryName;
-        studentsListfromFile = studentsList;
-
-        console.log("galleryName: ", galleryName);
-        console.log("student Names: ", studentsList);
-        console.log("students: ", studentsList);
 
         const dropDescriptionNameWrapper = document.getElementById('drop-description__name__wrapper');
         const dropDescriptionName = document.getElementById('drop-description__name');
 
-        dropDescriptionName.innerHTML = `JSON file successfully uploaded with the following gallery name: ${galleryName}`;
+        dropDescriptionName.innerHTML = `JSON файлът е успешно качен. Името на галерията е: ${galleryName}`;
 
         dropDescriptionNameWrapper.style.display = "block";
-        // dropDescriptionStudents.style.display = "block";
     }
  
     document.getElementById('jsonFile').addEventListener('change', onChange);

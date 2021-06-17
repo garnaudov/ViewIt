@@ -41,7 +41,7 @@
 
 .form-wrapper {
     background-color: #24252a;
-    height: 63vh;
+    height: 76vh;
     padding-top: 20px;
   }
   
@@ -160,6 +160,28 @@
   
   .submit:active {
     background-color: #06b;
+  }
+
+
+  .deletebtn {
+    background-color: gray;
+    border-radius: 12px;
+    border: 0;
+    box-sizing: border-box;
+    color: #eee;
+    cursor: pointer;
+    font-size: 18px;
+    height: 50px;
+    text-align: center;
+    width: 20%;
+    margin-top: -60px;
+    margin-left: 5px;
+    position: absolute;
+    width: 4%;
+  }
+  
+  .deletebtn:active {
+    background-color: #CE1212;
   }
 
 .alert-login {
@@ -318,3 +340,4 @@
         top:50%;
     }
 }
+

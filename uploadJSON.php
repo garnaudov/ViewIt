@@ -7,6 +7,7 @@ $gateway = new Gateway($conn);
 
 if (isset($_POST['submit'])) {
     $gateway -> createGallery();
+    header("Location: vied-galleries.php");
 } 
  
 ?>

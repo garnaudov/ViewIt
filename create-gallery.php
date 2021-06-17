@@ -54,7 +54,6 @@ $gateway = new Gateway($conn);
 <script>
 
     let galleryNameFromFile = "";
-    let studentsListfromFile = "";
 
    
     const onChange = (event) => {

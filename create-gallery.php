@@ -12,7 +12,7 @@ else {
 }
 
 $gateway = new Gateway($conn);
-$names = $gateway->findGalleriesByUsername('gkarnaudov');
+// $names = $gateway->findGalleriesByUsername('gkarnaudov');
 
 ?>
 
@@ -24,28 +24,12 @@ $names = $gateway->findGalleriesByUsername('gkarnaudov');
 </head>
 
 <form action="upload.php" method="POST" enctype="multipart/form-data">
-    <input type="file" id="myFile" name="file">
+    <input type="file" id="myFile" name="image">
     <button type="submit" name="submit">Upload</button>
 </form>
 
-<?php
 
-// output data of each row
-foreach ($names as $value) 
-{
 
-// }
-// while($name = $names->fetch_assoc()) 
-// {
-    
-    ?>
-    <p><?php echo $value["gallery_name"]?>
-    </p>
-	
-    <?php
-                }
-            
-            ?>
 
 
 
@@ -53,10 +37,16 @@ foreach ($names as $value)
 
 
 <body>
+<form action="uploadJSON.php" method="POST" enctype="multipart/form-data">
+
   <div class="drop-zone">
     <span class="drop-zone__prompt">Drop the JSON file here or click to upload</span>
-    <input type="file" id="jsonFile" name="myFile" class="drop-zone__input">
+    <input type="file" id="jsonFile" name="gallery" class="drop-zone__input">
   </div>
+  <button type="submit" name="submit">Създай галерия</button>
+
+</form>
+
 
 <div class="alert" id="drop-description__name__wrapper">
     <span id="drop-description__name"></span>

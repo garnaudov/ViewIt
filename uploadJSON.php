@@ -1,13 +1,12 @@
 <?php
 
-// $file = request()->fileinput;    // <input type="file" name="fileinput" />
-// $content = file_get_contents($file);
-// $json = json_decode($content, true);
+include 'Gateway.php';
+require 'dbconfig.php';
 
-$file = $_FILES['file'];
+$gateway = new Gateway($conn);
 
-$fileName = $_FILES['file']['name'];
-print_r($fileName);
-
-
+if (isset($_POST['submit'])) {
+    $gateway -> createGallery();
+} 
+ 
 ?>

@@ -17,7 +17,7 @@ $conn = null;
         $port = "3306";
         $db   = "viewitdb";
         $user = "root";
-        $pass = "root";
+        $pass = "";
 
         try {
             $conn = new \PDO(

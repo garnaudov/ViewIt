@@ -1,5 +1,8 @@
 <?php
 
+include 'Gateway.php';
+require 'dbconfig.php';
+
 class Controller {
 
     private $db;
@@ -7,6 +10,7 @@ class Controller {
     //private $file;
 
     private $gateway;
+
 
     public function __construct($db)
     {

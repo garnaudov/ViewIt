@@ -384,10 +384,16 @@ $statement = "
         DELETE FROM galleries
         WHERE name = :name;
     ";
+$statement2 = "
+        DELETE FROM users_galleries
+        WHERE gallery_name = :name;
+    ";
 
     try {
         $statement = $this->db->prepare($statement);
         $statement->execute(array('name' => $name));
+      	$statement2 = $this->db->prepare($statement2);
+        $statement2->execute(array('name' => $name));
         return $statement->rowCount();
     } catch (\PDOException $e) {
         exit($e->getMessage());
@@ -612,6 +618,8 @@ $controller->processPostRequest($description, $galleryName);
 3. След това трябва да свали проекта от github( https://github.com/garnaudov/ViewIt )
 
 4. След това трябва да се копира папката на проекта в папката htdocs, която се намира в папката xampp.
+
+5. След това трябва да изтегли MySQL Workbench и в нея да се изпълни createdb-script.db, с който базата данни да се сетъпне
 
    Системата е готова за използване :P
 

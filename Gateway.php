@@ -28,43 +28,6 @@ public function findGalleriesByUsername($user)
         exit($e->getMessage());
     }
 
-
-
-    // $statement = "
-    //     SELECT 
-    //         id
-    //     FROM
-    //         photos
-    //     WHERE path = ?;
-    // ";
-
-    // try {
-    //     $statement = $this->db->prepare($statement);
-    //     $statement->execute(array($path));
-    //     $result = $statement->fetchAll(\PDO::FETCH_ASSOC);
-    //     return $result;
-    // } catch (\PDOException $e) {
-    //     exit($e->getMessage());
-    // }
-}
-
-//working
-public function findNamesOfAllGalleries()
-{
-    $statement = "
-        SELECT 
-            name
-        FROM
-            galleries;
-    ";
-
-    try {
-        $statement = $this->db->query($statement);
-        $result = $statement->fetchAll(\PDO::FETCH_ASSOC);
-        return $result;
-    } catch (\PDOException $e) {
-        exit($e->getMessage());
-    }
 }
 
 
@@ -88,7 +51,6 @@ public function findPhotosByGallery($name)
     }
 }
 
-//working
 public function findPhotoByPath($path)
 {
     $statement = "
@@ -178,6 +140,7 @@ public function insertPhoto($description, $galleryName)
         echo "You cannot upload files of this type!";
         exit();
     }
+
     $statement = "
         INSERT INTO photos 
             (description, path)
@@ -286,6 +249,8 @@ public function deletePhotoById($id)
 
         $statement2 = $this->db->prepare($statement2);
         $statement2->execute(array('id' => $id));
+
+        unlink($this->findPhotoById($id)[0]['path']);
         return $statement2->rowCount();
     } catch (\PDOException $e) {
         exit($e->getMessage());
@@ -298,7 +263,7 @@ public function deleteGalleryByName($name)
     $result = $this->findPhotosByGallery($name);
 
     foreach ($result as $value) {
-        $this->deletePhotoById($value);
+        $this->deletePhotoById($value['photo_id']);
     }
 
     $statement = "

@@ -26,6 +26,5 @@ if (!isset($_POST['description']) || !isset($_POST['gallery']) || !isset($_FILES
     }
 }
 
-// pass the request method and user ID to the PersonController and process the HTTP request:
 $controller = new Controller($conn);
 $controller->processPostRequest($description, $galleryName);

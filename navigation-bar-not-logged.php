@@ -12,7 +12,7 @@
         <header>
             <nav>
                 <ul class="nav__links">
-                    <li><a href="#" disabled>Начало</a></li>
+                    <li><a href="homepage.php" disabled>Начало</a></li>
                 </ul>
             </nav>
             <a class="cta" href="login.php">Вход</a>
@@ -21,7 +21,7 @@
         <div class="overlay">
             <a class="close">&times;</a>
             <div class="overlay__content">
-                <li><a href="login.php">Начало</a></li>
+                <li><a href="homepage.php">Начало</a></li>
             </div>
         </div>
         <script type="text/javascript" src="mobile.js"></script>

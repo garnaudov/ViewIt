@@ -1,11 +1,11 @@
 <?php
     session_start();
-    $username = $_SESSION['username'];
     if(!isset($_SESSION['username'])){
         include 'navigation-bar-not-logged.php';
     }
     else {
         include 'navigation-bar-logged.php';
+        $username = $_SESSION['username'];
     }
 ?>
 <head>

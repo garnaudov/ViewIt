@@ -3,12 +3,12 @@
     require 'dbconfig.php';
 
     session_start();
-    $username = $_SESSION['username'];
     if(!isset($_SESSION['username'])){
         header("Location: login.php");
     }
     else {
         include 'navigation-bar-logged.php';
+        $username = $_SESSION['username'];
     }
 
     $gateway = new Gateway($conn);

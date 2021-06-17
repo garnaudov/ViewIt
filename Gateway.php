@@ -68,7 +68,7 @@ public function findNamesOfAllGalleries()
 }
 
 
-public function findPhotoByGallery($name)
+public function findPhotosByGallery($name)
 {
     $statement = "
         SELECT 
@@ -295,7 +295,7 @@ public function deletePhotoById($id)
 public function deleteGalleryByName($name)
 {
 
-    $result = $this->findPhotoByGallery($name);
+    $result = $this->findPhotosByGallery($name);
 
     foreach ($result as $value) {
         $this->deletePhotoById($value);
@@ -325,6 +325,22 @@ public function getUserByNameAndPassword($name, $pasword) {
         $statement = $this->db->prepare($statement);
         $statement->execute(array('username' => $name, 'password' => $pasword));
         return $statement->rowCount();
+    } catch (\PDOException $e) {
+        exit($e->getMessage());
+    } 
+}
+
+public function getOwnerOfGallery($name) {
+    $statement = "
+        SELECT owner 
+        FROM galleries
+        WHERE name = :name
+    ";
+    try {
+        $statement = $this->db->prepare($statement);
+        $statement->execute(array('name' => $name));
+        $result = $statement->fetchAll(\PDO::FETCH_ASSOC);
+        return $result;
     } catch (\PDOException $e) {
         exit($e->getMessage());
     } 

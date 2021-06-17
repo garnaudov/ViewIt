@@ -20,7 +20,7 @@ if (isset($_POST['gallery'])) {
 }
 
 if (!isset($_POST['description']) || !isset($_POST['gallery']) || !isset($_FILES['image'])) {
-    if (!isset($_FILES['gllery'])) {
+    if (!isset($_FILES['gallery'])) {
         header("HTTP/1.1 400 Bad Request");
         exit();
     }

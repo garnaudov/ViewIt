@@ -14,6 +14,8 @@ else {
 $gateway = new Gateway($conn);
 // $names = $gateway->findGalleriesByUsername('gkarnaudov');
 
+
+
 ?>
 
 <head>
@@ -23,18 +25,12 @@ $gateway = new Gateway($conn);
   <link rel="stylesheet" href="drag-drop-module.styles.css">
 </head>
 
-<form action="upload.php" method="POST" enctype="multipart/form-data">
+<!-- <form action="upload.php" method="POST" enctype="multipart/form-data">
+
+    <input id="description" name="description" class="input" type="text" placeholder=" " />
     <input type="file" id="myFile" name="image">
     <button type="submit" name="submit">Upload</button>
-</form>
-
-
-
-
-
-
-
-
+</form> -->
 
 <body>
 <form action="uploadJSON.php" method="POST" enctype="multipart/form-data">

@@ -1,0 +1,34 @@
+
+body {
+  font-family: 'Montserat', sans-serif;
+}
+
+.homepage-header {
+  background: 
+    linear-gradient(
+      rgba(0, 0, 0, 0.5),
+      rgba(0, 0, 0, 0.5)
+    ),
+    url(./assets/eric-park-QbX8A8eHfzw-unsplash.jpg);
+  background-size: cover;
+  height: 89vh;
+}
+
+.title {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: white;
+  text-align: center;
+}
+h1 {
+  text-transform: uppercase;
+  margin: 0;
+  font-size: 3rem;
+  white-space: nowrap;
+}
+p {
+  margin: 0;
+  font-size: 1.3rem;
+}

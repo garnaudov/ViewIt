@@ -3,38 +3,24 @@
 class Controller {
 
     private $db;
-    private $requestMethod;
-    private $userId;
+    //private $gallery;
+    //private $file;
 
     private $gateway;
 
-    public function __construct($db, $requestMethod, $userId)
+    public function __construct($db)
     {
         $this->db = $db;
-        $this->requestMethod = $requestMethod;
-        $this->userId = $userId;
-
+        //$this->gallery = $gallery;
+        //$this->file = $file;
         $this->gateway = new Gateway($db);
     }
 
-    public function processRequest()
+    /*public function processRequest()
     {
         switch ($this->requestMethod) {
-            case 'GET':
-                if ($this->userId) {
-                    $response = $this->getUser($this->userId);
-                } else {
-                    $response = $this->getAllUsers();
-                };
-                break;
             case 'POST':
-                $response = $this->createUserFromRequest();
-                break;
-            case 'PUT':
-                $response = $this->updateUserFromRequest($this->userId);
-                break;
-            case 'DELETE':
-                $response = $this->deleteUser($this->userId);
+                $response = $this->processPostRequest();
                 break;
             default:
                 $response = $this->notFoundResponse();
@@ -44,9 +30,16 @@ class Controller {
         if ($response['body']) {
             echo $response['body'];
         }
-    }
+    }*/
 
-    private function getAllUsers()
+    public function processPostRequest($description, $galleryName) {
+        if ($galleryName && $description) {
+            $this->gateway->insertPhoto($description, $galleryName);   
+        } else {
+            $this->gateway->createGallery();
+        }
+    }
+    /*private function getAllUsers()
     {
         $result = $this->personGateway->findAll();
         $response['status_code_header'] = 'HTTP/1.1 200 OK';
@@ -123,7 +116,7 @@ class Controller {
             'error' => 'Invalid input'
         ]);
         return $response;
-    }
+    }*/
 
     private function notFoundResponse()
     {

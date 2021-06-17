@@ -11,19 +11,24 @@ $uri = explode( '/', $uri );
 
 // all of our endpoints start with /person
 // everything else results in a 404 Not Found
-if ($uri[1] !== 'person') {
+if ($uri[1] !== 'insert' && $uri[1] !== 'create') {
     header("HTTP/1.1 404 Not Found");
     exit();
 }
 
 // the user id is, of course, optional and must be a number:
-$userId = null;
-if (isset($uri[2])) {
-    $userId = (int) $uri[2];
+$description = null;
+$galleryName = null;
+if (isset($uri[3])) {
+    $description = $uri[3];
+}
+
+if (isset($uri[4])) {
+    $galleryName = $uri[4];
 }
 
 $requestMethod = $_SERVER["REQUEST_METHOD"];
 
 // pass the request method and user ID to the PersonController and process the HTTP request:
-$controller = new Controller($dbConnection, $requestMethod, $userId);
-$controller->processRequest();
+$controller = new Controller($dbConnection);
+$controller->processPostRequest($description, $galleryName);

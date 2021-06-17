@@ -210,7 +210,7 @@ public function insertPhoto($description, $galleryName)
 }
 
 
-public function createGallery(Array $input)
+public function createGallery()
 {
     $statement = "
         INSERT INTO galleries 
@@ -226,19 +226,25 @@ public function createGallery(Array $input)
             (:user, :gallery_name);
     ";
 
+    $file = $_FILES['file'];
+
+    $str = file_get_contents($file);
+    $json = json_decode($str, true);
+
     try {
         $statement = $this->db->prepare($statement);
         $statement->execute(array(
-            'name' => $input['name'],
-            'owner' => $input['owner']
+            'name' => $json['galleryName'],
+            'owner' => $json['owner']
         ));
 
-
-        $statement2 = $this->db->prepare($statement);
-        $statement2->execute(array(
-            'gallery_name' => $input['name'],
-            'user' => $input['user']
-        ));
+        foreach ($json['usernames'] as $name) { 
+            $statement2 = $this->db->prepare($statement2);
+            $statement2->execute(array(
+                'gallery_name' => $json['galleryName'],
+                'user' => $name
+            ));
+        }
     } catch (\PDOException $e) {
         exit($e->getMessage());
     }    

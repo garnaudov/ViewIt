@@ -130,86 +130,6 @@ public function findPhotoById($id)
     }    
 }
 
-//working
-// public function insertPhoto($description, $galleryName)
-// {
-
-//     $file = $_FILES['file'];
-
-//     $fileName = $_FILES['file']['name'];
-//     $fileTmpName = $_FILES['file']['tmp_name'];
-//     $fileSize = $_FILES['file']['size'];
-//     $fileError = $_FILES['file']['error'];
-//     $fileType = $_FILES['file']['type'];
-
-//     $fileExt = explode('.', $fileName);
-//     $fileActualExt = strtolower(end($fileExt));
-
-//     $allowed = array('jpg', 'jpeg', 'png');
-
-//     if (in_array($fileActualExt, $allowed)) {
-//         if ($fileError === 0) {
-//             if($fileSize < 10000000){
-//                 $fileNameNew = uniqid('', true).".".$fileActualExt;
-//                 $shaHash = hash('sha256', $fileNameNew);
-//                 $firstTwoCharactersHash = substr($shaHash, 0, 2);
-//                 $secondTwoCharactersHash = substr($shaHash, 2, 2);
-//                 $thirdTwoCharactersHash = substr($shaHash, 4, 2);
-//                 $forthTwoCharactersHash = substr($shaHash, 6, 2);
-
-
-//                 $filePathDestination = 'uploads/'.$firstTwoCharactersHash.'/'.$secondTwoCharactersHash.'/'.$thirdTwoCharactersHash.'/'.$forthTwoCharactersHash;
-
-//                 $fileDestination = 'uploads/'.$firstTwoCharactersHash.'/'.$secondTwoCharactersHash.'/'.$thirdTwoCharactersHash.'/'.$forthTwoCharactersHash.'/'.$fileNameNew;
-//                 mkdir($filePathDestination, 0777, true);
-
-//                 move_uploaded_file($fileTmpName, $fileDestination);
-//                 header("Location: grid-gallery.php?uploadsuccess");
-//             } else {
-//                 echo "Your file is too big!";
-//             }
-
-//         }
-//         else {}
-//     }
-//     else {
-//         echo "You cannot upload files of this type!";
-//     }
-//     $statement = "
-//         INSERT INTO photos 
-//             (description, path)
-//         VALUES
-//             (:description, :path);
-//     ";
-
-//     $statement2 = "
-//         INSERT INTO photos_galleries 
-//             (photo_id, gallery_name)
-//         VALUES
-//             (:photo_id, :gallery_name);
-//     ";
-
-
-//     try {
-//         $statement = $this->db->prepare($statement);
-//         $statement->execute(array(
-//             'description' => $description,
-//             'path'  => $fileDestination,
-//         ));
-//         $result = $this->findPhotoByPath($fileDestination);
-//         $id = $result[0]['id'];
-
-//         $statement2 = $this->db->prepare($statement2);
-//         $statement2->execute(array(
-//             'photo_id' => $id,
-//             'gallery_name'  => $galleryName,
-//         ));
-//     } catch (\PDOException $e) {
-//         exit($e->getMessage());
-//     }
-// }
-
-
 public function insertPhoto($description, $galleryName)
 {
 
@@ -246,13 +166,17 @@ public function insertPhoto($description, $galleryName)
                 header("Location: grid-gallery.php?uploadsuccess");
             } else {
                 echo "Your file is too big!";
+                exit();
             }
 
         }
-        else {}
+        else {
+            exit();
+        }
     }
     else {
         echo "You cannot upload files of this type!";
+        exit();
     }
     $statement = "
         INSERT INTO photos 
@@ -288,57 +212,6 @@ public function insertPhoto($description, $galleryName)
     }
 }
 
-
-// public function createGallery()
-// {
-//     $statement = "
-//         INSERT INTO galleries 
-//             (name, owner)
-//         VALUES
-//             (:name, :owner);
-//     ";
-
-//     $statement2 = "
-//         INSERT INTO users_galleries 
-//             (username, gallery_name)
-//         VALUES
-//             (:username, :gallery_name);
-//     ";
-    
-
-//     $fileName = $_FILES['file']['name'];
-//     $fileTmpName = $_FILES['file']['tmp_name'];
-//     $fileExt = explode('.', $fileName);
-//     $fileActualExt = strtolower(end($fileExt));
-//     $fileNameNew = uniqid('', true);
-
-//     $fileDestination = 'JSONFiles/'.$fileNameNew.".".$fileActualExt;
-
-
-//     move_uploaded_file($fileTmpName, $fileDestination);
-
-//     $str = file_get_contents($fileDestination);
-//     $json = json_decode($str, true);
-
-//     try {
-//         $statement = $this->db->prepare($statement);
-//         $statement->execute(array(
-//             'name' => $json['galleryName'],
-//             'owner' => $json['owner']
-//         ));
-
-//         foreach ($json['usernames'] as $name) { 
-//             $statement3 = $this->db->prepare($statement2);
-//             $statement3->execute(array(
-//                 'gallery_name' => $json['galleryName'],
-//                 'username' => $name
-//             ));
-//         }
-//     } catch (\PDOException $e) {
-//         exit($e->getMessage());
-//     }    
-// }
-
 public function createGallery()
 {
     $statement = "
@@ -364,8 +237,14 @@ public function createGallery()
 
     $fileDestination = 'JSONFiles/'.$fileNameNew.".".$fileActualExt;
 
+    $allowed = array('json');
 
-    move_uploaded_file($fileTmpName, $fileDestination);
+    if (in_array($fileActualExt, $allowed)) {
+        move_uploaded_file($fileTmpName, $fileDestination);
+    } else {
+        echo "You cannot upload files of this type!";
+        exit();
+    }
 
     $str = file_get_contents($fileDestination);
     $json = json_decode($str, true);
@@ -388,80 +267,6 @@ public function createGallery()
         exit($e->getMessage());
     }    
 }
-
-// public function createGalleryFromPost($json)
-// {
-//      $statement = "
-//          INSERT INTO galleries 
-//              (name, owner)
-//          VALUES
-//              (:name, :owner);
-//      ";
-
-//     $statement2 = "
-//         INSERT INTO users_galleries 
-//             (username, gallery_name)
-//         VALUES
-//             (:username, :gallery_name);
-//     ";
-    
-
-//     // $fileName = $_FILES['test.json']['name'];
-//     // $fileTmpName = $_FILES['test.json']['tmp_name'];
-//     // $fileExt = explode('.', $fileName);
-//     // $fileActualExt = strtolower(end($fileExt));
-//     // $fileNameNew = uniqid('', true);
-
-//     // $fileDestination = 'JSONFiles/'.$fileNameNew.".".$fileActualExt;
-
-
-//     // move_uploaded_file($fileTmpName, $fileDestination);
-
-//     // $str = file_get_contents($fileDestination);
-//     //$str = file_get_contents($img);
-//     //$json = json_decode($str, true);
-
-//     try {
-//         $statement = $this->db->prepare($statement);
-//         $statement->execute(array(
-//             'name' => $json['galleryName'],
-//             'owner' => $json['owner']
-//         ));
-
-//         foreach ($json['usernames'] as $name) { 
-//             $statement3 = $this->db->prepare($statement2);
-//             $statement3->execute(array(
-//                 'gallery_name' => $json['galleryName'],
-//                 'username' => $name
-//             ));
-//         }
-//     } catch (\PDOException $e) {
-//         exit($e->getMessage());
-//     }    
-// }
-
-
-
-// public function updateGallery($name, Array $input)
-// {
-//     $statement = "
-//        INSERT INTO photo_galleries 
-//             (photo_id, gallery_name)
-//         VALUES
-//             (:id, :name);
-//     ";
-
-//     try {
-//         $statement = $this->db->prepare($statement);
-//         $statement->execute(array(
-//             'name' =>  $name,
-//             'id' => $input['id']
-//         ));
-//         return $statement->rowCount();
-//     } catch (\PDOException $e) {
-//         exit($e->getMessage());
-//     }    
-// }
 
 public function deletePhotoById($id)
 {
